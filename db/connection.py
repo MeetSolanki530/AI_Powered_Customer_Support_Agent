@@ -62,9 +62,17 @@ def get_customer(customer_id:str):
     return customers_collection.find_one({"customer_id" : customer_id})
 
 
+### Get Single order status by order_id for the customer
+
+def get_order_status(order_id : str,customer_id : str):
+    orders_collection = get_orders_collection()
+    return orders_collection.find_one({"order_id" : order_id, "customer_id" : customer_id})
+
+
 ### Main Block
 if __name__ == "__main__":
     db = support_db_details()
     db.client.admin.command("ping")
     print("Connected to Mongodb Successfully")
     print(get_customer("CUST001"))
+    print(get_order_status("ORD1001", "CUST001"))
