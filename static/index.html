@@ -16,21 +16,19 @@
 <body>
   <h2>Customer Support Chat</h2>
 
-  <input id="customer-id-input" placeholder="Customer ID (e.g. CUST001)" />
-  <hr />
-
   <div id="chat-box"></div>
 
   <input id="message-input" placeholder="Type your message..." />
   <button onclick="sendMessage()">Send</button>
 
   <script>
+    const sessionId = "session-" + Math.random().toString(36).substring(2, 10);
+
     async function sendMessage() {
-      const customerId = document.getElementById("customer-id-input").value.trim();
       const messageInput = document.getElementById("message-input");
       const message = messageInput.value.trim();
-      if (!customerId || !message) {
-        alert("Please enter both Customer ID and a message.");
+      if (!message) {
+        alert("Please enter a message.");
         return;
       }
 
@@ -41,7 +39,7 @@
       const response = await fetch("/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ customer_id: customerId, message: message })
+        body: JSON.stringify({ session_id: sessionId, message: message })
       });
 
       const data = await response.json();

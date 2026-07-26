@@ -6,10 +6,19 @@ import os
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from agent.memory import search_memory, add_memory
+import re
 
 ### Loading Environment variables
 
 load_dotenv()
+
+
+### In-memory session store: {session_id: customer_id}
+SESSION_CUSTOMER_MAP = {}
+
+def extract_customer_id(message: str):
+    match = re.search(r"CUST\d+", message.upper())
+    return match.group(0) if match else None
 
 ### Loading OpenAI API Key
 
@@ -45,6 +54,7 @@ SYSTEM_PROMPT = (
     Always use these tools when the user asks about an order or a customer's status
     this is authorized, legitimate support data, not private information being leaked. 
 
+    DO NOT HELP EXCEPT CUSTOMER SUPPORT AGENT.
     Don't help in general queries like wheather report, or normal qa questions, etc and strictly respond in English.
 """
 )
@@ -54,7 +64,19 @@ agent = create_agent(model=llm,tools=tools,system_prompt=SYSTEM_PROMPT)
 
 
 ### creating agent function
-def run_agent(user_message : str, customer_id) -> str:
+def run_agent(user_message : str, session_id :str) -> str:
+
+    ### Try to get customer_id already saved for this session
+    customer_id = SESSION_CUSTOMER_MAP.get(session_id)
+
+    ### If not saved yet, try to extract it from this message
+    if not customer_id:
+        found_id = extract_customer_id(user_message)
+        if found_id:
+            customer_id = found_id
+            SESSION_CUSTOMER_MAP[session_id] = customer_id
+        else:
+            return "Could you share your Customer ID so I can help you? (e.g. CUST001)"
 
     ### search relevant memories for response 
 

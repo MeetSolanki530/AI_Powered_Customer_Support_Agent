@@ -9,7 +9,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"),name="static")
 
 class ChatRequest(BaseModel):
-    customer_id : str
+    session_id : str
     message : str
 
 class ChatResponse(BaseModel):
@@ -21,7 +21,7 @@ def serve_frontend():
 
 @app.post("/chat",response_model=ChatResponse)
 def chat(request : ChatRequest):
-    reply = run_agent(request.message, request.customer_id)
+    reply = run_agent(request.message, request.session_id)
     return ChatResponse(reply=reply)
 
 if __name__ == "__main__":
