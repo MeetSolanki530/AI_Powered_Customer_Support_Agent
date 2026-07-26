@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
+from mem0 import MemoryClient
 
 ### Loading Environment variables
 
@@ -13,6 +14,10 @@ load_dotenv()
 ### Loading OpenAI API Key
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+### Loading Mem0 api key
+
+MEM0_API_KEY = os.getenv("MEM0_API_KEY")
 
 if not OPENAI_API_KEY:
     raise ValueError("Please set OPENAI_API_KEY in .env file.")
