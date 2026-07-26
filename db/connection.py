@@ -29,7 +29,7 @@ def get_mongodb_client():
     
 def support_db_details():
     mongodb_client = get_mongodb_client()
-    if mongodb_client:
+    if mongodb_client is not None:
         support_db = mongodb_client["support_agent_db"]
         return support_db
     else:
@@ -39,7 +39,7 @@ def support_db_details():
 
 def get_orders_collection():
     db_details = support_db_details()
-    if db_details:
+    if db_details is not None:
         orders_collection = db_details["orders"]
         return orders_collection
     else:
@@ -48,7 +48,7 @@ def get_orders_collection():
 ### Getting customers collection details
 def get_customers_collection():
     db_details = support_db_details()
-    if db_details:
+    if db_details is not None:
         customers_collection = db_details["customers"]
         return customers_collection
     else:
