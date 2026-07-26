@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Support Agent</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
+    #chat-box { border: 1px solid #ccc; height: 400px; overflow-y: auto; padding: 10px; margin-bottom: 10px; }
+    .msg { margin: 8px 0; }
+    .user { text-align: right; color: #0057ff; }
+    .agent { text-align: left; color: #333; }
+    input, button { padding: 8px; font-size: 14px; }
+    #message-input { width: 70%; }
+  </style>
+</head>
+<body>
+  <h2>Customer Support Chat</h2>
+
+  <input id="customer-id-input" placeholder="Customer ID (e.g. CUST001)" />
+  <hr />
+
+  <div id="chat-box"></div>
+
+  <input id="message-input" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    async function sendMessage() {
+      const customerId = document.getElementById("customer-id-input").value.trim();
+      const messageInput = document.getElementById("message-input");
+      const message = messageInput.value.trim();
+      if (!customerId || !message) {
+        alert("Please enter both Customer ID and a message.");
+        return;
+      }
+
+      const chatBox = document.getElementById("chat-box");
+      chatBox.innerHTML += `<div class="msg user">${message}</div>`;
+      messageInput.value = "";
+
+      const response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ customer_id: customerId, message: message })
+      });
+
+      const data = await response.json();
+      chatBox.innerHTML += `<div class="msg agent">${data.reply}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById("message-input").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>
