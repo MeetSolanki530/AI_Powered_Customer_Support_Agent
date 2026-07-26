@@ -17,8 +17,8 @@ def get_customers_status(customer_id : str) -> str:
     This function retrieves the current customers details 
     based on the customers_id and returns a string response.
 
-    Use this when you want any customer's details. Requires the exact 'customer_id'
-    (e.g. "CSTM578").
+    Use this when you want any customer's details. 
+    Requires the exact 'customer_id' (e.g. "CUST001") <- may differ, it's just an example.
     """
 
     result  = customers_collection.find_one({"customer_id" : customer_id})
