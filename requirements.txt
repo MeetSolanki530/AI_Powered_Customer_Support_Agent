@@ -5,4 +5,4 @@ langchain-openai
 python-dotenv
 fastapi[standard]
 pymongo
-mem0
+mem0ai
