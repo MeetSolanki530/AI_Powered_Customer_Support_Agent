@@ -9,10 +9,11 @@
 
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     min-height: 100vh;
     margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -31,7 +32,7 @@
 
   .chat-header {
     padding: 20px 24px;
-    background: linear-gradient(90deg, #6a5acd, #836fff);
+    background: linear-gradient(90deg, #11998e, #38ef7d);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -56,7 +57,7 @@
 
   .chat-header .info p {
     margin: 2px 0 0;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.9);
     font-size: 12px;
     display: flex;
     align-items: center;
@@ -106,8 +107,9 @@
   }
 
   .user .bubble {
-    background: linear-gradient(135deg, #6a5acd, #836fff);
-    color: white;
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: #05261e;
+    font-weight: 500;
     border-bottom-right-radius: 4px;
   }
 
@@ -172,7 +174,7 @@
     transition: border 0.2s;
   }
 
-  #message-input:focus { border-color: #836fff; }
+  #message-input:focus { border-color: #38ef7d; }
   #message-input::placeholder { color: rgba(255,255,255,0.4); }
 
   #send-btn {
@@ -180,8 +182,8 @@
     height: 44px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #6a5acd, #836fff);
-    color: white;
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: #05261e;
     font-size: 18px;
     cursor: pointer;
     display: flex;
@@ -192,6 +194,13 @@
 
   #send-btn:hover:not(:disabled) { transform: scale(1.08); }
   #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .deploy-tag {
+    margin-top: 14px;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
 </style>
 </head>
 <body>
@@ -212,6 +221,8 @@
     <button id="send-btn" onclick="sendMessage()">➤</button>
   </div>
 </div>
+
+<div class="deploy-tag">v2.0 — teal theme — CI/CD test build</div>
 
 <script>
   const sessionId = "session-" + Math.random().toString(36).substring(2, 10);
